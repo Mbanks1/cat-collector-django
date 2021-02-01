@@ -6,4 +6,3 @@ class FeedingForm(ModelForm):
     model = Feeding
     fields = ['date', 'meal']
 
-    

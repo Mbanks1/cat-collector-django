@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
-from .models import Cat, Toy
+from .models import Cat, Toy, Photo
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import FeedingForm
+import uuid
+import boto3
 # Create your views here.
+S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
+BUCKET = 'c4tcollector'
 
 
 
