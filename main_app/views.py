@@ -88,11 +88,13 @@ class ToyDelete(LoginRequiredMixin, DeleteView):
     model = Toy
     success_url = '/toys/'
 
+@login_required
 def assoc_toy(request, cat_id, toy_id):
       # Note that you can pass a toy's id instead of the whole object
   Cat.objects.get(id=cat_id).toys.add(toy_id)
   return redirect('detail', cat_id=cat_id)
 
+@login_required
 def add_photo(request, cat_id):
     # photo-file will be the "name" attribute on the <input type="file">
     photo_file = request.FILES.get('photo-file', None)
@@ -112,22 +114,23 @@ def add_photo(request, cat_id):
             print('An error occurred uploading file to S3')
     return redirect('detail', cat_id=cat_id)
 
-
 def signup(request):
-        error_message = ''
-        if request.method == 'POST':
+    error_message = ''
+    if request.method == 'POST':
     # This is how to create a 'user' form object
     # that includes the data from the browser
-           form = UserCreationForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
       # This will add the user to the database
-           user = form.save()
+            user = form.save()
       # This is how we log a user in via code
-           login(request, user)
-return redirect('index')
+            login(request, user)
+            return redirect('index')
         else:
             error_message = 'Invalid sign up - try again'
   # A bad POST or a GET request, so render signup.html with an empty form
-            form = UserCreationForm()
-            context = {'form': form, 'error_message': error_message}
-  return render(request, 'registration/signup.html', context)
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)
+
+    
